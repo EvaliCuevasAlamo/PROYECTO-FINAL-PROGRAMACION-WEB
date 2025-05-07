@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Simi - Gestión de Pacientes</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilos anteriores (se mantienen igual) */
+        body.login-page {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .login-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        body.dashboard-page {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-info img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .container {
+            padding: 30px;
+        }
+        
+        .panel {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-top: 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .btn {
+            padding: 8px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 14px;
+        }
+        
+        .search-bar button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+        
+        /* Nuevos estilos para KPIs y gráfica */
+        .kpi-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .kpi-card {
+            flex: 1;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        
+        .kpi-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3498db;
+            margin: 10px 0;
+        }
+        
+        .kpi-label {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .chart-container {
+            height: 300px;
+            margin-top: 20px;
+        }
+        
+        /* Estilos para el modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 500px;
+            max-width: 90%;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="login-page" id="main-body">
+    <!-- Página de Login -->
+    <div class="login-container" id="login-container">
+        <img src="https://via.placeholder.com/120x120?text=Dr.Simi" alt="Logo Dr. Simi" class="logo">
+        <h1>Acceso al Sistema Médico</h1>
+        
+        <form id="login-form">
+            <div class="input-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" name="username" placeholder="Ingrese su usuario" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" required>
+            </div>
+            
+            <button type="submit">Iniciar Sesión</button>
+            
+            <div class="forgot-password">
+                <a href="#">¿Olvidó su contraseña?</a>
+            </div>
+        </form>
+        
+        <div class="footer">
+            © 2023 Centro Médico Dr. Simi. Todos los derechos reservados.
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" style="display: none;">
+        <div class="header">
+            <div class="logo">
+                <img src="https://via.placeholder.com/40x40?text=DS" alt="Logo Dr. Simi">
+                <h2>Centro Médico Dr. Simi</h2>
+            </div>
+            <div class="user-info">
+                <img src="https://via.placeholder.com/30x30?text=U" alt="Usuario">
+                <span id="logged-user">Usuario Médico</span>
+                <button class="btn btn-danger" onclick="logout()" style="margin-left: 15px;">Cerrar Sesión</button>
+            </div>
+        </div>
+        
+        <div class="container">
+            <!-- KPIs destacados -->
+            <div class="kpi-container">
+                <div class="kpi-card">
+                    <div class="kpi-label">Pacientes hoy</div>
+                    <div class="kpi-value" id="patients-today">12</div>
+                    <div class="kpi-label">Consultas</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Pacientes esta semana</div>
+                    <div class="kpi-value" id="patients-week">84</div>
+                    <div class="kpi-label">Consultas</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Doctores activos</div>
+                    <div class="kpi-value" id="active-doctors">5</div>
+                    <div class="kpi-label">En turno</div>
+                </div>
+            </div>
+            
+            <!-- Gráfica -->
+            <div class="panel">
+                <h2>Distribución de pacientes por doctor</h2>
+                <div class="chart-container">
+                    <canvas id="patientsChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Tabla de pacientes -->
+            <div class="panel">
+                <h1>Gestión de Pacientes</h1>
+                
+                <div class="search-bar">
+                    <input type="text" placeholder="Buscar pacientes..." id="search-input">
+                    <button onclick="searchPatients()">Buscar</button>
+                    <button class="btn btn-primary" style="margin-left: auto;" onclick="openModal()">+ Nuevo Paciente</button>
+                </div>
+                
+                <table id="patients-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido Paterno</th>
+                            <th>Apellido Materno</th>
+                            <th>Doctor Asignado</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patients-list">
+                        <!-- Datos se cargarán dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para nuevo paciente -->
+    <div class="modal" id="patient-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nuevo Paciente</h2>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            
+            <form id="patient-form">
+                <div class="form-group">
+                    <label for="patient-name">Nombre</label>
+                    <input type="text" id="patient-name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patient-lastname1">Apellido Paterno</label>
+                    <input type="text" id="patient-lastname1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patient-lastname2">Apellido Materno</label>
+                    <input type="text" id="patient-lastname2" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patient-doctor">Doctor Asignado</label>
+                    <select id="patient-doctor" required>
+                        <option value="">Seleccione un doctor</option>
+                        <option value="Dr. Juan Pérez">Dr. Juan Pérez</option>
+                        <option value="Dra. Ana Sánchez">Dra. Ana Sánchez</option>
+                        <option value="Dr. Luis García">Dr. Luis García</option>
+                        <option value="Dra. Patricia Ruiz">Dra. Patricia Ruiz</option>
+                        <option value="Dr. Carlos Méndez">Dr. Carlos Méndez</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patient-date">Fecha de la cita</label>
+                    <input type="date" id="patient-date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patient-time">Hora de la cita</label>
+                    <input type="time" id="patient-time" required>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Paciente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo
+        let patients = [
+            {
+                name: "María",
+                lastname1: "González",
+                lastname2: "López",
+                doctor: "Dr. Juan Pérez",
+                date: "15/03/2023",
+                time: "10:00 AM"
+            },
+            {
+                name: "Carlos",
+                lastname1: "Martínez",
+                lastname2: "Ramírez",
+                doctor: "Dra. Ana Sánchez",
+                date: "15/03/2023",
+                time: "11:30 AM"
+            },
+            {
+                name: "Laura",
+                lastname1: "Hernández",
+                lastname2: "Gómez",
+                doctor: "Dr. Luis García",
+                date: "16/03/2023",
+                time: "09:15 AM"
+            },
+            {
+                name: "Jorge",
+                lastname1: "Díaz",
+                lastname2: "Vargas",
+                doctor: "Dra. Patricia Ruiz",
+                date: "16/03/2023",
+                time: "04:45 PM"
+            }
+        ];
+
+        // Simulación de login
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if(username && password) {
+                document.getElementById('main-body').className = 'dashboard-page';
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('logged-user').textContent = username;
+                
+                // Cargar datos después del login
+                loadPatients();
+                updateKPIs();
+                renderChart();
+            } else {
+                alert('Por favor ingrese usuario y contraseña válidos');
+            }
+        });
+        
+        function logout() {
+            document.getElementById('main-body').className = 'login-page';
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+        
+        // Funciones para el modal
+        function openModal() {
+            document.getElementById('patient-modal').style.display = 'flex';
+        }
+        
+        function closeModal() {
+            document.getElementById('patient-modal').style.display = 'none';
+            document.getElementById('patient-form').reset();
+        }
+        
+        // Guardar nuevo paciente
+        document.getElementById('patient-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newPatient = {
+                name: document.getElementById('patient-name').value,
+                lastname1: document.getElementById('patient-lastname1').value,
+                lastname2: document.getElementById('patient-lastname2').value,
+                doctor: document.getElementById('patient-doctor').value,
+                date: formatDate(document.getElementById('patient-date').value),
+                time: formatTime(document.getElementById('patient-time').value)
+            };
+            
+            patients.push(newPatient);
+            loadPatients();
+            updateKPIs();
+            renderChart();
+            closeModal();
+        });
+        
+        // Formatear fecha
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-MX');
+        }
+        
+        // Formatear hora
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            const hour = parseInt(hours);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const hour12 = hour % 12 || 12;
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+        
+        // Cargar pacientes en la tabla
+        function loadPatients() {
+            const tableBody = document.getElementById('patients-list');
+            tableBody.innerHTML = '';
+            
+            patients.forEach(patient => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td>${patient.name}</td>
+                    <td>${patient.lastname1}</td>
+                    <td>${patient.lastname2}</td>
+                    <td>${patient.doctor}</td>
+                    <td>${patient.date}</td>
+                    <td>${patient.time}</td>
+                    <td class="actions">
+                        <button class="btn btn-primary">Editar</button>
+                        <button class="btn btn-danger" onclick="deletePatient('${patient.name}', '${patient.lastname1}', '${patient.lastname2}')">Eliminar</button>
+                    </td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+        }
+        
+        // Eliminar paciente
+        function deletePatient(name, lastname1, lastname2) {
+            if(confirm(`¿Está seguro de eliminar a ${name} ${lastname1} ${lastname2}?`)) {
+                patients = patients.filter(p => 
+                    !(p.name === name && p.lastname1 === lastname1 && p.lastname2 === lastname2)
+                );
+                loadPatients();
+                updateKPIs();
+                renderChart();
+            }
+        }
+        
+        // Buscar pacientes
+        function searchPatients() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const rows = document.querySelectorAll('#patients-list tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+        
+        // Actualizar KPIs
+        function updateKPIs() {
+            document.getElementById('patients-today').textContent = patients.filter(p => p.date === new Date().toLocaleDateString('es-MX')).length;
+            document.getElementById('patients-week').textContent = patients.length; // Simplificado para el ejemplo
+            document.getElementById('active-doctors').textContent = new Set(patients.map(p => p.doctor)).size;
+        }
+        
+        // Renderizar gráfica
+        function renderChart() {
+            const ctx = document.getElementById('patientsChart').getContext('2d');
+            
+            // Agrupar pacientes por doctor
+            const doctors = {};
+            patients.forEach(patient => {
+                if (!doctors[patient.doctor]) {
+                    doctors[patient.doctor] = 0;
+                }
+                doctors[patient.doctor]++;
+            });
+            
+            // Destruir gráfica anterior si existe
+            if (window.patientsChart) {
+                window.patientsChart.destroy();
+            }
+            
+            window.patientsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(doctors),
+                    datasets: [{
+                        label: 'Número de Pacientes',
+                        data: Object.values(doctors),
+                        backgroundColor: [
+                            'rgba(52, 152, 219, 0.7)',
+                            'rgba(155, 89, 182, 0.7)',
+                            'rgba(46, 204, 113, 0.7)',
+                            'rgba(241, 196, 15, 0.7)',
+                            'rgba(231, 76, 60, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(52, 152, 219, 1)',
+                            'rgba(155, 89, 182, 1)',
+                            'rgba(46, 204, 113, 1)',
+                            'rgba(241, 196, 15, 1)',
+                            'rgba(231, 76, 60, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
