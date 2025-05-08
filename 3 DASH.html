@@ -1,0 +1,185 @@
+<div class="dashboard-container">
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <img src="assets/images/logo-dr-simi-white.png" alt="Dr. Simi" class="logo">
+      <h1>Centro Médico Dr. Simi</h1>
+    </div>
+    
+    <div class="header-right">
+      <div class="user-menu">
+        <span class="material-icons">account_circle</span>
+        <div class="menu-content">
+          <button (click)="logout()">
+            <span class="material-icons">logout</span>
+            <span>Cerrar sesión</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- KPIs -->
+    <section class="kpi-section">
+      <div class="kpi-card">
+        <div class="kpi-content">
+          <span class="material-icons kpi-icon">group</span>
+          <div class="kpi-text">
+            <div class="kpi-value">{{patientsToday}}</div>
+            <div class="kpi-label">Pacientes hoy</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-content">
+          <span class="material-icons kpi-icon">event</span>
+          <div class="kpi-text">
+            <div class="kpi-value">{{patientsWeek}}</div>
+            <div class="kpi-label">Esta semana</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-content">
+          <span class="material-icons kpi-icon">medical_services</span>
+          <div class="kpi-text">
+            <div class="kpi-value">{{doctors.length}}</div>
+            <div class="kpi-label">Doctores</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gráfica y Tabla -->
+    <div class="data-section">
+      <!-- Gráfica -->
+      <div class="chart-card">
+        <div class="card-header">
+          <h2>Pacientes por Doctor</h2>
+        </div>
+        <div class="card-content">
+          <div class="chart-container">
+            <canvas #patientsChart></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Pacientes -->
+      <div class="table-card">
+        <div class="card-header">
+          <h2>Lista de Pacientes</h2>
+          <button class="add-button" (click)="openAddPatientDialog()">
+            <span class="material-icons">add</span>
+            Nuevo Paciente
+          </button>
+        </div>
+        
+        <div class="card-content">
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido Paterno</th>
+                  <th>Apellido Materno</th>
+                  <th>Doctor</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let patient of patients">
+                  <td>{{patient.nombre}}</td>
+                  <td>{{patient.apellidoPaterno}}</td>
+                  <td>{{patient.apellidoMaterno}}</td>
+                  <td>{{patient.doctor}}</td>
+                  <td>{{patient.fecha | date:'dd/MM/yyyy'}}</td>
+                  <td>{{patient.hora}}</td>
+                  <td class="actions">
+                    <button class="icon-button" (click)="editPatient(patient)">
+                      <span class="material-icons">edit</span>
+                    </button>
+                    <button class="icon-button delete" (click)="deletePatient(patient.id)">
+                      <span class="material-icons">delete</span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="pagination">
+            <button class="page-button" [disabled]="currentPage === 1" (click)="prevPage()">
+              <span class="material-icons">chevron_left</span>
+            </button>
+            <span class="page-info">Página {{currentPage}} de {{totalPages}}</span>
+            <button class="page-button" [disabled]="currentPage === totalPages" (click)="nextPage()">
+              <span class="material-icons">chevron_right</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Dialogo para agregar/editar paciente -->
+<div class="dialog-overlay" *ngIf="showDialog">
+  <div class="dialog-container">
+    <h2>{{isEditMode ? 'Editar' : 'Nuevo'}} Paciente</h2>
+    
+    <form class="patient-form" (ngSubmit)="savePatient()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" [(ngModel)]="patientForm.nombre" name="nombre" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="apellidoPaterno">Apellido Paterno</label>
+          <input type="text" id="apellidoPaterno" [(ngModel)]="patientForm.apellidoPaterno" name="apellidoPaterno" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="apellidoMaterno">Apellido Materno</label>
+          <input type="text" id="apellidoMaterno" [(ngModel)]="patientForm.apellidoMaterno" name="apellidoMaterno" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="doctor">Doctor</label>
+          <select id="doctor" [(ngModel)]="patientForm.doctor" name="doctor" required>
+            <option value="">Seleccione un doctor</option>
+            <option *ngFor="let doctor of doctors" [value]="doctor">{{doctor}}</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fecha">Fecha</label>
+          <input type="date" id="fecha" [(ngModel)]="patientForm.fecha" name="fecha" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="hora">Hora</label>
+          <input type="time" id="hora" [(ngModel)]="patientForm.hora" name="hora" required>
+        </div>
+      </div>
+      
+      <div class="dialog-actions">
+        <button type="button" class="cancel-button" (click)="closeDialog()">Cancelar</button>
+        <button type="submit" class="save-button" [disabled]="!patientForm.nombre || !patientForm.apellidoPaterno || !patientForm.apellidoMaterno || !patientForm.doctor || !patientForm.fecha || !patientForm.hora || loading">
+          {{isEditMode ? 'Actualizar' : 'Guardar'}}
+          <span *ngIf="loading" class="spinner"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
