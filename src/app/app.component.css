@@ -1,6 +1,6 @@
 .sidenav{
     width: 250;
-    background-color: aquamarine;
+    background-color: rgb(64, 77, 252);
     border-radius: 0px !important;
 }
 
@@ -11,4 +11,9 @@
 
 .app-title{
     margin-left: 20px;
+}
+
+.mat-toolbar{
+    background-color: rgb(57, 57, 255);
+    color: white;
 }
