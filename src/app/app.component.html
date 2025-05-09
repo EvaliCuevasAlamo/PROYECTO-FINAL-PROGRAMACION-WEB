@@ -17,9 +17,19 @@
     
   </mat-sidenav>
 
-  <mat-drawer-content>
+  <mat-sidenav-content class="main-content">
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>
+          menu
+        </mat-icon>
+      </button>
+<span class="app-title">Farmacias Similares</span>
+
+    </mat-toolbar>
+
       <router-outlet />
-  </mat-drawer-content>
+  </mat-sidenav-content>
 
 </mat-sidenav-container>
 

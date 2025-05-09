@@ -1,5 +1,14 @@
 .sidenav{
     width: 250;
     background-color: aquamarine;
+    border-radius: 0px !important;
 }
 
+.main-content{
+    background-color: rgba(219, 219, 219, 0.744);
+    padding: 20px;
+}
+
+.app-title{
+    margin-left: 20px;
+}
