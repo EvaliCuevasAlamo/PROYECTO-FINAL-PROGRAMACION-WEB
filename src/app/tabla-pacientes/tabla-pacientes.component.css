@@ -1,3 +1,16 @@
-.tabla-paciente{
+.card-actions{
+    display: flex;
+    justify-content: right;
+}
 
+.mat-pagination{
+    width: 100%;
+}
+
+.edit-btn{
+    background-color: blue;
+}
+
+.delete-btn{
+    background-color: red;
 }
