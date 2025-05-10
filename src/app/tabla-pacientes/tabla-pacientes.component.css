@@ -8,9 +8,20 @@
 }
 
 .edit-btn{
-    background-color: blue;
+    background-color: rgb(63, 63, 255);
+    color: #fff;
 }
 
 .delete-btn{
-    background-color: red;
+    background-color: rgb(244, 39, 39);
+    color: #fff;
+}
+
+.mat-mdc-header-row{
+    background-color: rgb(95, 122, 203);
+    color: #fff;
+}
+
+.mat-card-title{
+    padding: 20px;
 }

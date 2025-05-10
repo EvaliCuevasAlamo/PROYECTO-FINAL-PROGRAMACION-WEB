@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-header>
-        Pacientes
+        <mat-card-title>Pacientes</mat-card-title>
     </mat-card-header>
 
     <mat-card-actions class="card-actions">
@@ -39,7 +39,7 @@
                 <th mat-header-cell *matHeaderCellDef>Opciones</th>
                 <td mat-cell *matCellDef="let paciente">
                     <button mat-flat-button class="edit-btn" [routerLink]="['/edit', paciente.id]">Editar</button>
-                     <button mat-flat-button class="delete-btn" [routerLink]="['/delete', paciente.id]">Eliminar</button>
+                    <button mat-flat-button class="delete-btn" [routerLink]="['/delete', paciente.id]">Eliminar</button>
                 </td>
             </ng-container>
 
