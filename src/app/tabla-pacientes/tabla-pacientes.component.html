@@ -1,1 +1,36 @@
-<p>tabla-pacientes works!</p>
+<mat-card>
+    <mat-card-header>
+        Tabla de pacientes
+    </mat-card-header>
+    <mat-card-content>
+        <table mat-table [dataSource]="dataSource" class="tabla-paciente">
+            <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.id}}</td> 
+            </ng-container>
+            <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.nombre}}</td> 
+            </ng-container>
+            <ng-container matColumnDef="apellidoP">
+                <th mat-header-cell *matHeaderCellDef>Apellido Paterno</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.apellidoP}}</td> 
+            </ng-container>
+            <ng-container matColumnDef="apellidoM">
+                <th mat-header-cell *matHeaderCellDef>Apellido Materno</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.apellidoM}}</td> 
+            </ng-container>
+            <ng-container matColumnDef="doctor">
+                <th mat-header-cell *matHeaderCellDef>Doctor</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.doctor}}</td> 
+            </ng-container>
+            <ng-container matColumnDef="cita">
+                <th mat-header-cell *matHeaderCellDef>Fecha y hora</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.cita}}</td> 
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
+            <tr mat-row *matRowDef="let row; columns: columnasVisibles;"></tr>
+        </table>
+    </mat-card-content>
+</mat-card>
