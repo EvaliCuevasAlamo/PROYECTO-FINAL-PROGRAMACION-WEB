@@ -7,10 +7,11 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card';
 import { PacienteService } from '../services/paciente.service';
 import { Paciente } from '../models/paciente.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-tabla-pacientes',
-  imports: [MatTableModule, MatPaginatorModule, MatSnackBarModule, MatButtonModule, MatCardModule, MatSnackBarAction],
+  imports: [MatTableModule, MatPaginatorModule, MatSnackBarModule, MatButtonModule, MatCardModule, RouterModule],
   templateUrl: './tabla-pacientes.component.html',
   styleUrl: './tabla-pacientes.component.css'
 })
@@ -18,7 +19,7 @@ export class TablaPacientesComponent {
   pacientesService = inject(PacienteService);
   snackBar = inject(MatSnackBar);
 
-  columnasVisibles: string[] = ["id", "nombre", "apellidoP", "apellidoM", "doctor", "cita"]
+  columnasVisibles: string[] = ["id", "nombre", "apellidoP", "apellidoM", "doctor", "cita", "actions"]
 
   dataSource = new MatTableDataSource<Paciente>();
 
@@ -38,6 +39,15 @@ export class TablaPacientesComponent {
       this.dataSource.data = pacientes;
       this.totalItems = pacientes.length;
     })
+  }
+
+  onPageChange(event: any){
+    this.pageSize = event.pageSize;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  ngAfterViewInit(){
+    this.dataSource.paginator = this.paginator;
   }
 
 }

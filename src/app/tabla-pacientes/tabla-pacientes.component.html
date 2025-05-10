@@ -29,8 +29,23 @@
                 <td mat-cell *matCellDef="let paciente">{{ paciente.cita}}</td> 
             </ng-container>
 
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                <td mat-cell *matCellDef="let paciente">
+                    <button mat-flat-button color="primary" [routerLink]="['/edit', paciente.id]">Editar</button>
+                     <button mat-flat-button color="red" [routerLink]="['/delete', paciente.id]">Eliminar</button>
+                </td>
+            </ng-container>
+
+
             <tr mat-header-row *matHeaderRowDef="columnasVisibles"></tr>
             <tr mat-row *matRowDef="let row; columns: columnasVisibles;"></tr>
         </table>
     </mat-card-content>
+
+    <mat-card-actions class="class-actions">
+        <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="[5,10,15,20]" (page)="onPageChange($event)">
+
+        </mat-paginator>
+    </mat-card-actions>
 </mat-card>
