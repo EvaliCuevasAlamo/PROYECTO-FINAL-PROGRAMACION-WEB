@@ -30,7 +30,7 @@ export class AddEditPacientesComponent {
 
   pacienteForm: FormGroup;
 
-  isEditmode = false;
+  isEditMode = false;
   pacienteId: number = 0;
 
   constructor(private fb: FormBuilder){
@@ -48,7 +48,7 @@ export class AddEditPacientesComponent {
     const id = params.get("id");
 
     if(id){
-      this.isEditmode = true;
+      this.isEditMode = true;
       this.pacienteId = +id;
       this.pacienteService.getPacientes();
 
@@ -87,7 +87,7 @@ export class AddEditPacientesComponent {
     if(this.pacienteForm.valid){
       const paciente: Paciente = {...this.pacienteForm.value, id:this.pacienteId || Date.now()}
 
-      if(!this.isEditmode && this.pacienteId !== null){
+      if(!this.isEditMode && this.pacienteId !== null){
         //Para editar
         this.pacienteService.updatePaciente(this.pacienteId.toString(), paciente);
         this.snackBar.open("Paciente editado con exito");

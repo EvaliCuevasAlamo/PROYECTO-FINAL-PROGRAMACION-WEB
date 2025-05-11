@@ -29,6 +29,7 @@ export class TablaPacientesComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   pacientes = this.pacientesService.pacientes;
+isEditMode: any;
 
   constructor(){
     this.pacientesService.getPacientes();
@@ -50,4 +51,8 @@ export class TablaPacientesComponent {
     this.dataSource.paginator = this.paginator;
   }
 
+  deletePaciente(pacienteId: number){
+    this.pacientesService.deletePaciente(pacienteId);
+    this.snackBar.open("Paciente eliminado con exito");
+  }
 }
