@@ -1,1 +1,64 @@
-<p>add-edit-pacientes works!</p>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Añadir o editar paciente</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <form [formGroup]="pacienteForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre" placeholder="Nombre"/>
+
+                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Introduzca un nombre</mat-error>
+
+                    </mat-form-field>
+                </div>
+            
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Apellido Paterno</mat-label>
+                        <input matInput formControlName="apellidoP" placeholder="Apellido Paterno"/>
+
+                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Introduzca un Apellido</mat-error>
+
+                    </mat-form-field>
+                </div>
+            
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Apellido Materno</mat-label>
+                        <input matInput formControlName="apellidoM" placeholder="Apellido Materno"/>
+
+                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Introduzca un Apellido</mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Doctor</mat-label>
+                        <input matInput formControlName="doctor" placeholder="Doctor"/>
+
+                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Seleccione un doctor</mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Cita</mat-label>
+                        <input matInput formControlName="cita" placeholder="Cita"/>
+
+                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Introduzca una fecha</mat-error>
+
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </form>
+    </mat-card-content>
+
+
+</mat-card>
