@@ -1,0 +1,10 @@
+.mat-mdc-form-field{
+    width: 100%;
+}
+
+.add-edit-card{
+    max-width: 600px;
+    margin: auto;
+    margin-top: 30px;
+    padding: 30px;
+}

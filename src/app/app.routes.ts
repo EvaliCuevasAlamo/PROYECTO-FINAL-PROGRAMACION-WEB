@@ -7,7 +7,8 @@ export const routes: Routes = [
 
     {path: 'nuevo', component: AddEditPacientesComponent},
     {path: 'dashboard', component:TablaPacientesComponent},
-    {path: 'lista', component:ListaPacientesComponent}
+    {path: 'lista', component:ListaPacientesComponent},
+    {path: 'edit/:id', component:AddEditPacientesComponent}
 
     
 

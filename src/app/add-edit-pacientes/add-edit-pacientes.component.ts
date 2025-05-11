@@ -66,20 +66,41 @@ export class AddEditPacientesComponent {
   loadPacienteData(pacienteId: number){
     const paciente = this.pacienteService.getPacientePorId(pacienteId);
     console.log(paciente);
+
+    if(paciente){
+      this.pacienteForm.patchValue({
+        nombre: paciente.nombre,
+        apellidoP: paciente.apellidoP,
+        apellidoM: paciente.apellidoM,
+        doctor: paciente.doctor,
+        fecha: paciente.fecha,
+        hora: paciente.hora
+
+      })
+    }
   }
 
   onSubmit(){
     console.log("Form Submitted");
+    console.log(this.pacienteForm);
  
     if(this.pacienteForm.valid){
       const paciente: Paciente = {...this.pacienteForm.value, id:this.pacienteId || Date.now()}
 
-      if(!this.isEditmode && this.pacienteId ! == null){
+      if(!this.isEditmode && this.pacienteId !== null){
         //Para editar
+        this.pacienteService.updatePaciente(this.pacienteId.toString(), paciente);
+        this.snackBar.open("Paciente editado con exito");
 
       }else{  
         //Para añadir
+        this.pacienteService.addPaciente(paciente);
+        this.snackBar.open("Paciente añadido con exito");
       }
+
+      this.router.navigate(["/dashboard"]);
+
+
     }
   }
 
