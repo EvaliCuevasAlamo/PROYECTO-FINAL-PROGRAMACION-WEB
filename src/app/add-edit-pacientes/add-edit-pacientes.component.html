@@ -58,7 +58,7 @@
                         <mat-datepicker-toggle matSuffix [for]="picker" formControlName="fecha"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
 
-                        <mat-error *ngIf="pacienteForm.get('cita')?.hasError('required')">Seleccione una fecha</mat-error>
+                        <mat-error *ngIf="pacienteForm.get('fecha')?.hasError('required')">Seleccione una fecha</mat-error>
 
                     </mat-form-field>
                 </div>

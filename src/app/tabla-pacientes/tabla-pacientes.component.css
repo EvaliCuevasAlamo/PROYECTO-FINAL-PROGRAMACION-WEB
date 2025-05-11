@@ -7,18 +7,8 @@
     width: 100%;
 }
 
-.edit-btn{
-    background-color: rgb(63, 63, 255);
-    color: #fff;
-}
-
-.delete-btn{
-    background-color: rgb(244, 39, 39);
-    color: #fff;
-}
-
 .mat-mdc-header-row{
-    background-color: rgb(95, 122, 203);
+    background-color: rgb(23, 62, 178);
     color: #fff;
 }
 

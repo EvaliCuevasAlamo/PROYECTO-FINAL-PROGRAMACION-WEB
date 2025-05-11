@@ -42,8 +42,10 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Opciones</th>
                 <td mat-cell *matCellDef="let paciente">
-                    <button mat-flat-button class="edit-btn" [routerLink]="['/edit', paciente.id]">Editar</button>
-                    <button mat-flat-button class="delete-btn" [routerLink]="['/delete', paciente.id]">Eliminar</button>
+                    <button mat-flat-button style="background-color: rgb(63, 63, 255);
+    color: #fff;" [routerLink]="['/edit', paciente.id]">Editar</button>
+                    <button mat-flat-button style="background-color: rgb(244, 39, 39);
+    color: #fff;" [routerLink]="['/delete', paciente.id]">Eliminar</button>
                 </td>
             </ng-container>
 
