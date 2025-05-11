@@ -21,7 +21,7 @@
                         <mat-label>Apellido Paterno</mat-label>
                         <input matInput formControlName="apellidoP" placeholder="Apellido Paterno"/>
 
-                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Introduzca un Apellido</mat-error>
+                        <mat-error *ngIf="pacienteForm.get('apellidoP')?.hasError('required')">Introduzca un apellido</mat-error>
 
                     </mat-form-field>
                 </div>
@@ -31,7 +31,7 @@
                         <mat-label>Apellido Materno</mat-label>
                         <input matInput formControlName="apellidoM" placeholder="Apellido Materno"/>
 
-                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Introduzca un Apellido</mat-error>
+                        <mat-error *ngIf="pacienteForm.get('apellidoM')?.hasError('required')">Introduzca un apellido</mat-error>
 
                     </mat-form-field>
                 </div>
@@ -39,19 +39,37 @@
                 <div class="form-row">
                     <mat-form-field>
                         <mat-label>Doctor</mat-label>
-                        <input matInput formControlName="doctor" placeholder="Doctor"/>
+                        <mat-select formControlName="doctor">
+                            <mat-option *ngFor="let doctor of doctores" [value]="doctor">
+                                {{ doctor}}
+                            </mat-option>
+                        </mat-select>
 
-                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Seleccione un doctor</mat-error>
+                        <mat-error *ngIf="pacienteForm.get('doctor')?.hasError('required')">Seleccione un doctor</mat-error>
 
                     </mat-form-field>
                 </div>
 
                 <div class="form-row">
                     <mat-form-field>
-                        <mat-label>Cita</mat-label>
-                        <input matInput formControlName="cita" placeholder="Cita"/>
+                        <mat-label>Fecha</mat-label>
+                        
+                        <input matInput [matDatepicker]="picker" formControlName="fecha" />
+                        <mat-datepicker-toggle matSuffix [for]="picker" formControlName="fecha"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
 
-                        <mat-error *ngIf="pacienteForm.get('nombre')?.hasError('required')">Introduzca una fecha</mat-error>
+                        <mat-error *ngIf="pacienteForm.get('cita')?.hasError('required')">Seleccione una fecha</mat-error>
+
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field>
+                        <mat-label>Hora</mat-label>
+                        <input matInput formControlName="hora" placeholder="Hora"/>
+
+                        <mat-error *ngIf="pacienteForm.get('hora')?.hasError('required')">Seleccione la hora</mat-error>
+
 
                     </mat-form-field>
                 </div>
@@ -60,5 +78,7 @@
         </form>
     </mat-card-content>
 
-
+    <mat-card-actions>
+        <button mat-raised-button (click)="onSubmit()" [disabled]="pacienteForm.invalid">Continuar</button>
+    </mat-card-actions>
 </mat-card>

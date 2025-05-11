@@ -30,9 +30,13 @@
                 <th mat-header-cell *matHeaderCellDef>Doctor</th>
                 <td mat-cell *matCellDef="let paciente">{{ paciente.doctor}}</td> 
             </ng-container>
-            <ng-container matColumnDef="cita">
-                <th mat-header-cell *matHeaderCellDef>Fecha y hora</th>
-                <td mat-cell *matCellDef="let paciente">{{ paciente.cita}}</td> 
+            <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef>Fecha</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.fecha}}</td> 
+            </ng-container>
+            <ng-container matColumnDef="hora">
+                <th mat-header-cell *matHeaderCellDef>Hora</th>
+                <td mat-cell *matCellDef="let paciente">{{ paciente.hora}}</td> 
             </ng-container>
 
             <ng-container matColumnDef="actions">

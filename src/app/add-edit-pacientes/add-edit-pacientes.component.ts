@@ -11,7 +11,7 @@ import { PacienteService } from '../services/paciente.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
-
+import { Paciente } from '../models/paciente.model';
 
 @Component({
   selector: 'app-add-edit-pacientes',
@@ -39,7 +39,8 @@ export class AddEditPacientesComponent {
       apellidoP: ["", Validators.required],
       apellidoM: ["", Validators.required],
       doctor: ["", Validators.required],
-      cita: ["", Validators.required]
+      fecha: ["", Validators.required],
+      hora: ["", Validators.required]
 
   });
 
@@ -69,6 +70,17 @@ export class AddEditPacientesComponent {
 
   onSubmit(){
     console.log("Form Submitted");
+ 
+    if(this.pacienteForm.valid){
+      const paciente: Paciente = {...this.pacienteForm.value, id:this.pacienteId || Date.now()}
+
+      if(!this.isEditmode && this.pacienteId ! == null){
+        //Para editar
+
+      }else{  
+        //Para añadir
+      }
+    }
   }
 
 

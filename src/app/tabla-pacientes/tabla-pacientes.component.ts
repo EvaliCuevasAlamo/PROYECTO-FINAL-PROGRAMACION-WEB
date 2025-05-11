@@ -19,7 +19,7 @@ export class TablaPacientesComponent {
   pacientesService = inject(PacienteService);
   snackBar = inject(MatSnackBar);
 
-  columnasVisibles: string[] = ["id", "nombre", "apellidoP", "apellidoM", "doctor", "cita", "actions"]
+  columnasVisibles: string[] = ["id", "nombre", "apellidoP", "apellidoM", "doctor", "fecha", "hora", "actions"]
 
   dataSource = new MatTableDataSource<Paciente>();
 

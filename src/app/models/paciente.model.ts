@@ -4,5 +4,6 @@ export interface Paciente{
     apellidoP: String;
     apellidoM: String;
     doctor: String;
-    cita: Date
+    fecha: String;
+    hora: String
 }
