@@ -1,13 +1,13 @@
 {
   "pacientes": [
     {
-      "id": 1,
       "nombre": "Juan",
-      "apellidoP": "Garcia",
+      "apellidoP": "Perez",
       "apellidoM": "López",
       "doctor": "Dr. Pérez",
       "fecha": "2023-06-15",
-      "hora": "09:30:00"
+      "hora": "09:30:00",
+      "id": 1
     },
     {
       "id": 2,

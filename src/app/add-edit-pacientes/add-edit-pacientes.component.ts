@@ -82,12 +82,12 @@ export class AddEditPacientesComponent {
 
   onSubmit(){
     console.log("Form Submitted");
-    console.log(this.pacienteForm);
+    console.log(this.pacienteForm.value);
  
     if(this.pacienteForm.valid){
       const paciente: Paciente = {...this.pacienteForm.value, id:this.pacienteId || Date.now()}
 
-      if(!this.isEditMode && this.pacienteId !== null){
+      if(this.isEditMode && this.pacienteId !== null){
         //Para editar
         this.pacienteService.updatePaciente(this.pacienteId.toString(), paciente);
         this.snackBar.open("Paciente editado con exito");
